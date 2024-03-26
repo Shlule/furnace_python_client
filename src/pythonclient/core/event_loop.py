@@ -11,6 +11,9 @@ from concurrent import futures
 from contextlib import suppress
 from threading import Thread
 from typing import Coroutine
+import gc
+
+from pythonclient.utils.log import logger
 
 class EventLoop:
     """
