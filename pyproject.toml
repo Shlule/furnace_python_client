@@ -8,6 +8,7 @@ authors = [
 dependencies = [
     "python-socketio[asyncio_client]>=5.11.1",
     "asyncio>=3.4.3",
+    "logzero>=1.7.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"

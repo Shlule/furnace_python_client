@@ -18,6 +18,8 @@ attrs==23.2.0
     # via aiohttp
 bidict==0.23.1
     # via python-socketio
+colorama==0.4.6
+    # via logzero
 frozenlist==1.4.1
     # via aiohttp
     # via aiosignal
@@ -25,6 +27,8 @@ h11==0.14.0
     # via wsproto
 idna==3.6
     # via yarl
+logzero==1.7.0
+    # via pythonclient
 multidict==6.0.5
     # via aiohttp
     # via yarl
