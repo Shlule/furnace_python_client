@@ -26,7 +26,7 @@ async def on_server_message(data):
 #     print('disconnected from server')
 
 async def main():
-    await sio.connect('http://localhost:3000')
+    await sio.connect('http://localhost:3000', namespaces=(["/maya"]))
     await sio.wait()
     await sio.sleep(1)
     await sio.disconnect()

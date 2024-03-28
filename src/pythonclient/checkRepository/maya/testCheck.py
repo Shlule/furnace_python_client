@@ -1,5 +1,5 @@
 from typing import str
-from FurnaceCheckBase import FurnaceCheckBase
+from pythonclient.FurnaceCheckBase import FurnaceCheckBase
 
 from maya import cmds
 

@@ -89,6 +89,44 @@ class WebSocketConnection:
         future = self.event_loop.register_task(self._disconnect_socketio())
         futures.wait([future])
         return future
-    def send(self , namespace: str , ev)
+    
+    def send(self, namespace: str, event: str, data: Any = None) -> futures.Future:
+        """
+        Send a message using websocket from a different thread than the event loop
+        """
+        return self.event_loop.register_task(self.async_send(namespace, event, data))
+
+    async def async_send(self, namespace, event, data=None) -> asyncio.Future:
+        """
+        Send a message using websocket from within the event loop
+        """
+        future = self.event_loop.loop.create_future()
+
+        def callback(response):
+            if not future.cancelled():
+                future.set_result(response)
+
+        try:
+            data = json.loads(json.dumps(data, default=silex_encoder))
+        except TypeError:
+            # TODO: Set this log as an error, but make sure it works with the WebsocketLog context
+            logger.debug("Could not send %s: The data is not json serialisable", data)
+            future.set_result(None)
+            return future
+
+        logger.debug("Websocket client sending %s at %s on %s", data, namespace, event)
+        await self.socketio.emit(event, data, namespace, callback)
+        # Make sure a confirmation has been received
+        try:
+            await asyncio.wait_for(future, timeout=self.MESSAGE_CALLBACK_TIMEOUT)
+        except asyncio.TimeoutError:
+            logger.warning(
+                "The message %s has been sent on %s at %s but no confirmation has been received",
+                data,
+                namespace,
+                event,
+            )
+        return future
+
 
 
