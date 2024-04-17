@@ -32,6 +32,7 @@ from pythonclient.core.event_loop import EventLoop
 from pythonclient.utils.log import logger
 import socketio
 from socketio.exceptions import ConnectionError
+from pythonclient.core.network.websocket_namespace_python import WebsocketNamespacePython
 
 class WebSocketConnection:
     """
@@ -40,12 +41,15 @@ class WebSocketConnection:
     """
 
     #: How long to wait for a confirmation fom every messages sent
-    MESSAGE_CALLBACK_TIEMOUT = 1
+    MESSAGE_CALLBACK_TIMEOUT = 1
 
     def __init__(self, url:str, event_loop: EventLoop):
         self.url = url
         self.socketio = socketio.AsyncClient()
         self.event_loop = event_loop
+
+        self.python_Namespace = WebsocketNamespacePython("/python", self)
+        self.socketio.register_namespace(self.python_Namespace)
 
 
     @property

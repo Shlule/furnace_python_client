@@ -66,6 +66,7 @@ class EventLoop:
         logger.info("Starting the event loop")
         self.thread = Thread(target=self._start_event_loop, daemon=True)
         self.thread.start()
+        logger.info("reel starting event loop")
 
     def stop(self) -> None:
         """

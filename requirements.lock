@@ -22,6 +22,8 @@ bidict==0.23.1
     # via python-socketio
 colorama==0.4.6
     # via logzero
+dacite==1.8.1
+    # via pythonclient
 frozenlist==1.4.1
     # via aiohttp
     # via aiosignal
@@ -29,6 +31,8 @@ h11==0.14.0
     # via wsproto
 idna==3.6
     # via yarl
+jsondiff==2.0.0
+    # via pythonclient
 logzero==1.7.0
     # via pythonclient
 multidict==6.0.5
