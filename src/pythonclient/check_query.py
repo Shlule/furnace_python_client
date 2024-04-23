@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING
-from src.check_buffer import CheckBuffer
-from src.pythonclient.utils.enums import CheckStatus
-from src.pythonclient.core.context import Context
+from pythonclient.check_buffer import CheckBuffer
+from pythonclient.utils.enums import CheckStatus
+from pythonclient.core.context import Context
 
 if TYPE_CHECKING:
-    from src.pythonclient.core.event_loop import EventLoop
-    from src.pythonclient.core.network.websocket import WebSocketConnection
+    from pythonclient.core.event_loop import EventLoop
+    from pythonclient.core.network.websocket import WebSocketConnection
 
 class CheckQuery:
     """

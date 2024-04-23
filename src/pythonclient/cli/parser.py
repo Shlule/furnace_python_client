@@ -55,9 +55,9 @@ def main(handlers_mapping: Optional[Dict[str,Callable]] = None):
 
     check_parser.add_argument(
         "check_name",
-        help="The name of the action to perform under the context",
+        help="The name of the check to perform under the context",
         default=None,
-        nargs="?"
+        nargs="?",
     )
 
     check_parser.add_argument(
@@ -70,6 +70,31 @@ def main(handlers_mapping: Optional[Dict[str,Callable]] = None):
     )
 
     check_parser.add_argument(
+        "--parameter",
+        "-p",
+        help=" set the parameter value with <path> = <value>",
+        dest="Set_parameters",
+        action="append",
+        default=[],
+    )
+
+    checklist_parser.add_argument(
+        "checkList_name",
+        help= "the path to the checkto perfoem under context",
+        default = None,
+        nargs="?",
+    )
+
+    checklist_parser.add_argument(
+        "--list-parameters",
+        "-lp",
+        help="print the parameters of the selcted action",
+        default=False,
+        action="store",
+        dest="list_parameters",
+    )
+
+    checklist_parser.add_argument(
         "--parameter",
         "-p",
         help=" set the parameter value with <path> = <value>",

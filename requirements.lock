@@ -27,6 +27,8 @@ dacite==1.8.1
 frozenlist==1.4.1
     # via aiohttp
     # via aiosignal
+glob2==0.7
+    # via pythonclient
 h11==0.14.0
     # via wsproto
 idna==3.6
@@ -49,3 +51,5 @@ wsproto==1.2.0
     # via simple-websocket
 yarl==1.9.4
     # via aiohttp
+setuptools==69.5.1
+    # via pythonclient

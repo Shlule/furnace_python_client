@@ -7,6 +7,7 @@ import asyncio
 import subprocess
 from concurrent import futures
 from pprint import pprint
+from src.pythonclient.core.config import Config
 
 def launch_handler(dcc: str, **kwargs) -> None:
     """
@@ -22,5 +23,15 @@ def checklist_handler():
     pass
 
 def check_handler(check_name: str, **kwargs) -> None:
-    print("je suis dans le check_handlers")
-    pprint(kwargs)
+    """
+    Execute the check in the curren context
+    """
+
+    # find the path of the check
+
+    check = [check_name]
+  
+
+    test = Config()
+    print(f"config:{test.checks}")
+

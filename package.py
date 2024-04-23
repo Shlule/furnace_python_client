@@ -13,6 +13,7 @@ description = """
 def commands():
 
     env.PYTHONPATH.append("{root}")
+    env.FURNACE_CHECK_CONFIG.prepend("{root}/src/pythonclient/checkRepository")
 
     parserpath = "src.pythonclient.cli.parser"
     if "houdini" in request:

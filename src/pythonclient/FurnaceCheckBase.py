@@ -3,7 +3,7 @@ import logging
 import inspect
 from typing import Any, Dict
 
-from check_buffer import CheckBuffer
+from pythonclient.check_buffer import CheckBuffer
 
 from pythonclient.utils.enums import CheckStatus
 
@@ -34,12 +34,26 @@ class FurnaceCheckBase:
         )        
     
 
-    # def is_valid_parameters(self, parameters, logger: logging.Logger) -> bool:
-    #     """
-    #     Check the if the input kwargs are valid accoring to the parameters list
-    #     and conform it if nessesary
-    #     """
-    #     for parameters_name, parameter_buffer in self.check_buffer
+    def is_valid_parameters(self, parameters) -> bool:
+        """
+        Check the if the input kwargs are valid accoring to the parameters list
+        and conform it if nessesary
+        """
+        for parameter_name, parameter_buffer in self.check_buffer.children.items():
+            # check if the parameters is here
+            if parameter_name not in parameters.keys():
+                return False
+            
+            if isinstance(parameters[parameter_name], parameter_buffer.type):
+                continue
+
+            try:
+                parameters[parameter_name] = parameter_buffer.type(
+                    parameters[parameter_name]
+                )
+            except (ValueError, TypeError):
+                return False
+        return True
 
 
     @staticmethod
@@ -50,9 +64,16 @@ class FurnaceCheckBase:
             async def wrapper_conform_command(check: FurnaceCheckBase, *args, **kwargs)->None:
                 print(f"kwargs: {kwargs}")
                 print(f"args: {args}")
+                parameters = kwargs.get("parameters", args[0])
 
-                # output = await func(*args, **kwargs)
-                # return output
+                # Make sure the given parameters are valid 
+                print(f"je suis la variable check dans le wrapper {type(check)}")
+                if not check.is_valid_parameters(parameters):
+                    check.check_buffer.status = CheckStatus.INVALID
+
+
+                output = await func(parameters,*args, **kwargs)
+                return output
             return wrapper_conform_command
         return decorator_conform_command
 

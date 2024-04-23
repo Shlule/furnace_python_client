@@ -1,6 +1,6 @@
 import asyncio
 from pythonclient.FurnaceCheckBase import FurnaceCheckBase
-from check_buffer import CheckBuffer
+from pythonclient.check_buffer import CheckBuffer
 
 
 class TestCheck(FurnaceCheckBase):
@@ -21,13 +21,12 @@ class TestCheck(FurnaceCheckBase):
 if __name__ == "__main__":
     from pythonclient.utils.enums import CheckStatus
 
-    dict_parameters = {"name": "bonjour",
-                       "status": 1}
-    parameters = ["bonjour", "salut", 30]
-    check_buffer = CheckBuffer(**dict_parameters)
+
+    parameters = ["bonjour", 30]
+    check_buffer = CheckBuffer(*parameters)
     print(check_buffer)
     test = TestCheck("check", check_buffer)
-    asyncio.run(test.run(parameters))
+    asyncio.run(test.run(test.check_buffer.children))
 
 
     print(f"test.parameters:{test.parameters}")
