@@ -7,7 +7,7 @@ import sys
 import uuid
 from concurrent import futures
 from queue import Queue
-from typing import TYPE_CHECKING, Any, Callable, Dict, ItemsView, KeysView, ValuesView
+# from typing import TYPE_CHECKING, Any, Callable, Dict
 
 from pythonclient.core.event_loop import EventLoop
 from pythonclient.core.network.websocket import WebSocketConnection

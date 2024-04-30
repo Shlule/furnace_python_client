@@ -7,8 +7,8 @@ import asyncio
 import subprocess
 from concurrent import futures
 from pprint import pprint
-from src.pythonclient.core.config import Config
-
+from pythonclient.core.config import Config
+from pythonclient.core.context import Context
 def launch_handler(dcc: str, **kwargs) -> None:
     """
     Run the given command in the slected context
@@ -30,8 +30,9 @@ def check_handler(check_name: str, **kwargs) -> None:
     # find the path of the check
 
     check = [check_name]
-  
+    # print(kwargs)
 
     test = Config()
     print(f"config:{test.checks}")
+    Context.get().start_services()
 

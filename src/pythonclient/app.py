@@ -2,6 +2,7 @@ import asyncio
 import socketio
 from pythonclient.core.network.websocket import WebSocketConnection
 from pythonclient.core.event_loop import EventLoop
+from pythonclient.core.context import Context
 
 # sio = socketio.AsyncClient()
 
@@ -50,7 +51,8 @@ async def main():
 
 if __name__ == '__main__':
     # asyncio.run(main())
-    start_services()
+    # start_services()
+    Context.get().start_services()
     # from pythonclient.core.context import Context
 
     # Context.get().start_services()

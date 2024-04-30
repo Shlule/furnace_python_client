@@ -4,7 +4,7 @@
 import argparse
 from typing import Dict, Optional, Callable
 
-from src.pythonclient.cli import handlers
+from pythonclient.cli import handlers
 
 def main(handlers_mapping: Optional[Dict[str,Callable]] = None):
     """

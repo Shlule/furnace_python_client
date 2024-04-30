@@ -8,9 +8,9 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 from pathlib import Path
 
-import glob
+# import dacite
 
-import pkg_resources
+# import pkg_resources
 # from dacite import types
 
 
@@ -55,6 +55,10 @@ class Config:
     @property
     def checks(self) -> List[Dict[str,str]]:
         return self.get_checks()
+
+    def resolve_check(self, check_name:str, avaible_checks: List[Dict[str,str]]):
+        if check_name not in [check["name"] for check in avaible_checks]:
+            logger.error()
 
     @staticmethod
     def get_default_checkRepo_search_path():
