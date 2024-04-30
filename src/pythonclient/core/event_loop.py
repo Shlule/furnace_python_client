@@ -99,6 +99,7 @@ class EventLoop:
         future = asyncio.run_coroutine_threadsafe(coroutine, self.loop)
 
         def callback(task_result: futures.Future):
+            logger.info(f"je suis le future: {task_result}")
             if task_result.cancelled():
                 return
 
@@ -108,7 +109,8 @@ class EventLoop:
                     "Exception raised in the task %s: %s", coroutine, exception
                 )
                 traceback.print_tb(exception.__traceback__)
-
+        logger.info("je suis juste avant le add_done_callback")
         future.add_done_callback(callback)
+        logger.info("je suis juste apres le add_done_callback")
         return future
         

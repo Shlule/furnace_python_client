@@ -22,7 +22,7 @@ class Context:
     def __init__(self) -> None:
 
         self.event_loop = EventLoop()
-        self.ws_connection = WebSocketConnection('ws://127.0.0.1:3000', self.event_loop)
+        self.ws_connection = WebSocketConnection('http://localhost:3000', self.event_loop)
     
     def start_services(self):
         self.event_loop.start()

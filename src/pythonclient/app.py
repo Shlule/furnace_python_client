@@ -4,13 +4,13 @@ from pythonclient.core.network.websocket import WebSocketConnection
 from pythonclient.core.event_loop import EventLoop
 from pythonclient.core.context import Context
 
-# sio = socketio.AsyncClient()
+sio = socketio.AsyncClient()
 
-# @sio.event
-# async def connect():
-#     print(sio.get_sid())
-#     print('connection established')
-#     await sio.emit("initialization", sio.sid)
+@sio.event
+async def connect():
+    print(sio.get_sid())
+    print('connection established')
+    await sio.emit("initialization", sio.sid)
 
 # @sio.on("check")
 # async def test_check(data):
@@ -45,7 +45,7 @@ async def main():
     ws_connection = WebSocketConnection("http://localhost:3000", event_loop)
 
     event_loop.start()
-    await asyncio.sleep(1)
+    # await asyncio.sleep(1)
     ws_connection.start()
 
 
@@ -53,6 +53,7 @@ if __name__ == '__main__':
     # asyncio.run(main())
     # start_services()
     Context.get().start_services()
+    # asyncio.run(main())
     # from pythonclient.core.context import Context
 
     # Context.get().start_services()

@@ -1,3 +1,3 @@
 # pythonclient
 
-Describe your project here.
+this project is based on silex_client repository https://github.com/ArtFXDev/silex_client

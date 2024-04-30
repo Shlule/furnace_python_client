@@ -48,6 +48,7 @@ class WebSocketConnection:
         self.socketio = socketio.AsyncClient()
         self.event_loop = event_loop
 
+        # must connect all scoketio namespaces here
         self.python_Namespace = WebsocketNamespacePython("/python", self)
         self.socketio.register_namespace(self.python_Namespace)
 
@@ -57,11 +58,12 @@ class WebSocketConnection:
         return self.socketio.connected 
     
     async def _connect_socketio(self) -> None:
+        logger.info("j'essaie de me connecter a socketio")
         try:
             await asyncio.wait_for(self.socketio.connect(self.url), 2)
-        except (asyncio.TimeoutError, ConnectionError):
+        except (asyncio.TimeoutError, ConnectionError) as e:
             logger.warning(
-                "Conection with the websocket server could not be establish"
+                f"Conection with the websocket server could not be establish: {e}"
             )
         
     
@@ -78,6 +80,7 @@ class WebSocketConnection:
         
         future = self.event_loop.register_task(self._connect_socketio())
         futures.wait([future])
+        logger.info(f"je suis dans le wsconnection {futures.wait([future])}")
         return future
     
     def stop(self) -> futures.Future:

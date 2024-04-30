@@ -6,7 +6,7 @@ class WebsocketNamespacePython(WebsocketNamespaceBase):
     async def on_connect(self):
         await super().on_connect()
         
-        print(f"je suis dans on_connect du namespec python {self.namespace}")
+        print(f"je suis dans on_connect du namespace python {self.namespace}")
 
         initialisation_data = {
             "context": "bonjour",

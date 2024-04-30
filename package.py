@@ -37,12 +37,9 @@ def commands():
 
     print("{root}/test")
 
-    parserpath = "src.pythonclient.cli.parser"
-    if "houdini" in request:
-        alias("furnace", f"hython -m {parserpath}")
-                
-    if "maya" in request:
-        alias("furnace", f"mayapy -m {parserpath}")
+    parserpath = "pythonclient.cli.parser"
+    alias("furnace", f"python -m {parserpath}")
+
 
 
 @late()
