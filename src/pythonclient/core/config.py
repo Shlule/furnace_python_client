@@ -8,6 +8,8 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 from pathlib import Path
 
+from pythonclient.utils.log import logger
+
 # import dacite
 
 # import pkg_resources
@@ -21,10 +23,10 @@ class Config:
     utility class  that lazy loads and resolve configuration on demand
     """
 
-    def __init__(self, config_search_path = None ):
+    def __init__(self, checkRepo_search_path = None ):
         
-        self.checkRepo_search_path = config_search_path
-        if config_search_path is None:
+        self.checkRepo_search_path = checkRepo_search_path
+        if checkRepo_search_path is None:
             self.checkRepo_search_path = Config.get_default_checkRepo_search_path()
 
 
@@ -42,7 +44,10 @@ class Config:
                 continue
             list_check_path = Path(path).glob('**/*.py')
             for check_path in list_check_path:
-                founded_check.append({"name":check_path.name, "path": check_path})
+                check_name = check_path.stem
+                if check_name == "__init__":
+                    continue
+                founded_check.append({"name":check_name, "path": check_path})
         
         return founded_check
             
@@ -55,10 +60,29 @@ class Config:
     @property
     def checks(self) -> List[Dict[str,str]]:
         return self.get_checks()
+    
+    
 
-    def resolve_check(self, check_name:str, avaible_checks: List[Dict[str,str]]):
-        if check_name not in [check["name"] for check in avaible_checks]:
-            logger.error()
+    def is_check_exist(self, check_name:str):
+
+
+        if check_name not in [check["name"] for check in self.checks]:
+            logger.error(
+                "could not resolve the check %s: The check does not exists", check_name
+            )
+            return None
+        logger.debug("found check: %s", check_name )
+        
+
+
+    # def _load_config(self, checkRepo_path: str):
+    #     """
+    #     this function is for load all the checkRepository folder, 
+    #     in a centralized file , containing the path of all CheckRepository folder
+    #     """
+    #     with open
+
+
 
     @staticmethod
     def get_default_checkRepo_search_path():

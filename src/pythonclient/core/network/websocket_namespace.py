@@ -7,6 +7,7 @@ from __future__ import annotations
 import typing
 
 import socketio
+from typing import Any,Dict
 from pythonclient.utils.log import logger
 
 if typing.TYPE_CHECKING:
@@ -14,9 +15,9 @@ if typing.TYPE_CHECKING:
 
 class WebsocketNamespaceBase(socketio.AsyncClientNamespace):
 
-    def __init__(self, namespace: str, ws_connection: WebSocketConnection):
+    def __init__(self, namespace: str, context_data:Dict[str, Any], ws_connection: WebSocketConnection):
         super().__init__(namespace)
-
+        self.context_data = context_data
         self.ws_connection = ws_connection
         self.url = ws_connection.url
     

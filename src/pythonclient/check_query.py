@@ -20,8 +20,15 @@ class CheckQuery:
         self.event_loop: EventLoop = context.event_loop
         self.ws_connection : WebSocketConnection = context.ws_connection
 
-    async def execute_checks(self) -> None:
+    async def execute_check(self, check_path) -> None:
         self.buffer.status = CheckStatus.INITIALIZED
+
+        
+
+
+
+
+
         
 
 

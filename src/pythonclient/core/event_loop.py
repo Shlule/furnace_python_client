@@ -66,8 +66,7 @@ class EventLoop:
         logger.info("Starting the event loop")
         self.thread = Thread(target=self._start_event_loop, daemon=True)
         self.thread.start()
-        logger.info("reel starting event loop")
-
+        
     def stop(self) -> None:
         """
         Ask to all the event loop's tasks to stop and join the thread to the main thread
@@ -99,7 +98,6 @@ class EventLoop:
         future = asyncio.run_coroutine_threadsafe(coroutine, self.loop)
 
         def callback(task_result: futures.Future):
-            logger.info(f"je suis le future: {task_result}")
             if task_result.cancelled():
                 return
 
@@ -109,8 +107,6 @@ class EventLoop:
                     "Exception raised in the task %s: %s", coroutine, exception
                 )
                 traceback.print_tb(exception.__traceback__)
-        logger.info("je suis juste avant le add_done_callback")
         future.add_done_callback(callback)
-        logger.info("je suis juste apres le add_done_callback")
         return future
         

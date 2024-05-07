@@ -9,10 +9,9 @@ class WebsocketNamespacePython(WebsocketNamespaceBase):
         print(f"je suis dans on_connect du namespace python {self.namespace}")
 
         initialisation_data = {
-            "context": "bonjour",
-            "runningActions": "tout le monde",
+            "context": self.context_data,
         }
-
+        
         await self.ws_connection.async_send(
             self.namespace, "initialization", initialisation_data
         )

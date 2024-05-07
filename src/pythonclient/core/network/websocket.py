@@ -43,13 +43,14 @@ class WebSocketConnection:
     #: How long to wait for a confirmation fom every messages sent
     MESSAGE_CALLBACK_TIMEOUT = 1
 
-    def __init__(self, url:str, event_loop: EventLoop):
+    def __init__(self, url:str, context_data: Dict[str, Any], event_loop: EventLoop):
         self.url = url
+        self.context_data = context_data
         self.socketio = socketio.AsyncClient()
         self.event_loop = event_loop
 
         # must connect all scoketio namespaces here
-        self.python_Namespace = WebsocketNamespacePython("/python", self)
+        self.python_Namespace = WebsocketNamespacePython("/python",context_data, self)
         self.socketio.register_namespace(self.python_Namespace)
 
 
@@ -58,7 +59,6 @@ class WebSocketConnection:
         return self.socketio.connected 
     
     async def _connect_socketio(self) -> None:
-        logger.info("j'essaie de me connecter a socketio")
         try:
             await asyncio.wait_for(self.socketio.connect(self.url), 2)
         except (asyncio.TimeoutError, ConnectionError) as e:
@@ -114,7 +114,7 @@ class WebSocketConnection:
                 future.set_result(response)
 
         try:
-            data = json.loads(json.dumps(data, default=silex_encoder))
+            data = json.loads(json.dumps(data))
         except TypeError:
             # TODO: Set this log as an error, but make sure it works with the WebsocketLog context
             logger.debug("Could not send %s: The data is not json serialisable", data)

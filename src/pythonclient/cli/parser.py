@@ -6,7 +6,7 @@ from typing import Dict, Optional, Callable
 
 from pythonclient.cli import handlers
 
-def main(handlers_mapping: Optional[Dict[str,Callable]] = None):
+def main(dcc:Optional[str] = None, handlers_mapping: Optional[Dict[str,Callable]] = None):
     """
     parse the given arguments and call the appropriate handler
 
@@ -41,11 +41,13 @@ def main(handlers_mapping: Optional[Dict[str,Callable]] = None):
     check_parser = subparsers.add_parser(
         "check",
         help="Execute the given check in the context",
+        parents=[execution_parser]
     )
 
     checklist_parser = subparsers.add_parser(
         "checklist",
         help="Execute the given checklist in the context",
+        parents=[execution_parser]
     )
 
     launcher_parser = subparsers.add_parser(
@@ -85,23 +87,23 @@ def main(handlers_mapping: Optional[Dict[str,Callable]] = None):
         nargs="?",
     )
 
-    checklist_parser.add_argument(
-        "--list-parameters",
-        "-lp",
-        help="print the parameters of the selcted action",
-        default=False,
-        action="store",
-        dest="list_parameters",
-    )
+    # checklist_parser.add_argument(
+    #     "--list-parameters",
+    #     "-lp",
+    #     help="print the parameters of the selcted action",
+    #     default=False,
+    #     action="store",
+    #     dest="list_parameters",
+    # )
 
-    checklist_parser.add_argument(
-        "--parameter",
-        "-p",
-        help=" set the parameter value with <path> = <value>",
-        dest="Set_parameters",
-        action="append",
-        default=[],
-    )
+    # checklist_parser.add_argument(
+    #     "--parameter",
+    #     "-p",
+    #     help=" set the parameter value with <path> = <value>",
+    #     dest="Set_parameters",
+    #     action="append",
+    #     default=[],
+    # )
 
     launcher_parser.add_argument(
         "dcc",
@@ -126,6 +128,8 @@ def main(handlers_mapping: Optional[Dict[str,Callable]] = None):
     )
 
     args = vars(parser.parse_args())
+    # insert the dcc in argument to set it up the context further in the handler
+    args["dcc"] = dcc
 
     subcommand = args.pop("subcommand", None)
     if subcommand is not None:
