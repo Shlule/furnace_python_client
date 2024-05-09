@@ -28,5 +28,3 @@ if __name__ == "__main__":
               'name':"testParameterBuffer"}
     
     test = from_dict(ParameterBuffer,mydict)
-
-    print(test)

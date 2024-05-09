@@ -18,7 +18,6 @@ def conform_requires(require_list):
     conformed_requires = []
     for require in require_list:
         conformed = require.replace("-", "_").lower()
-        print(conformed)
         conformed_requires.append(conformed)
     return conform_requires
 
@@ -35,7 +34,6 @@ def commands():
     env.PYTHONPATH.append("{root}/src")
     env.FURNACE_CHECK_CONFIG.prepend("{root}/src/pythonclient/checkRepository")
 
-    print("{root}/test")
 
     parserpath = "pythonclient.cli.parser"
     alias("furnace", f"python -m {parserpath}")

@@ -18,7 +18,6 @@ def launch_handler(dcc: str, **kwargs) -> None:
     """
     command = [dcc]
     arg_list = []
-    print(command)
 
     subprocess.Popen(command, cwd=os.getcwd(), shell=True)
 
@@ -32,7 +31,7 @@ def check_handler(check_name: str, dcc:str ,**kwargs) -> None:
 
     # find the path of the check
 
-    config = Config()
+    config = Config.get()
 
     if kwargs.get("list", False):
         #just print the avaible check
@@ -46,14 +45,20 @@ def check_handler(check_name: str, dcc:str ,**kwargs) -> None:
         return
     
     furnace_context = Context.get()
+    # print(Config.get().is_check_exist(check_name))
+    # print(config.is_check_exist(check_name))
+    
     # must insert the dcc in context metadata here
     furnace_context.setDcc(dcc)
     furnace_context.start_services()
 
-    check = CheckQuery
+    check = CheckQuery(check_name)
+
+    try:
+        check_future = check.execute()
     
 
-    print(kwargs)
+    # print(kwargs)
     # print(Context.get())
     # context = Context.get()
     # context.setDcc(dcc)

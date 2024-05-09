@@ -18,8 +18,9 @@ class FurnaceCheckBase:
 
         #merge the parameters of inherited trees
         self.parameters = {}
+
         # take all execpt the last one because always return object class 
-        for inherited_class in  inheritance_tree[::-1]:
+        for inherited_class in inheritance_tree[::-1]:
             if not hasattr(inherited_class,"parameters"):
                 continue
             class_parameters = getattr(inherited_class, "parameters")
@@ -28,7 +29,7 @@ class FurnaceCheckBase:
 
 
     
-    async def run(self,parameters: Dict[str,Any], ) -> Any:
+    async def run(self, parameters: Dict[str,Any], ) -> Any:
         raise NotImplementedError(
             "this command does not have any execution function"
         )        

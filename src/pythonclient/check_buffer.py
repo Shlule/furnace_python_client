@@ -27,6 +27,9 @@ class CheckBuffer():
 
     status: CheckStatus = field(default=CheckStatus.UNCHECK, init=False)
 
+    #The path to the check Module
+    path: str = field(default="")
+
     children: Dict[str, ParameterBuffer] = field(default_factory=dict)
 
 

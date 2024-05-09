@@ -61,20 +61,27 @@ class Config:
     def checks(self) -> List[Dict[str,str]]:
         return self.get_checks()
     
-    
+    @staticmethod
+    def get() -> Config:
+        """
+        Return a globaly instanciated config. This static method is just for conveniance
+        """
+        # Get the instance of Context created in this same module
+        return getattr(sys.modules[__name__], "config")
 
     def is_check_exist(self, check_name:str):
 
+        for check in self.checks:
+            if check["name"] == check_name:
+                logger.debug("found check: %s", check_name )
+                return check
+        logger.error(
+            "could not resolve the check %s: The check does not exists", check_name
+        )
+        return None
+       
 
-        if check_name not in [check["name"] for check in self.checks]:
-            logger.error(
-                "could not resolve the check %s: The check does not exists", check_name
-            )
-            return None
-        logger.debug("found check: %s", check_name )
         
-
-
     # def _load_config(self, checkRepo_path: str):
     #     """
     #     this function is for load all the checkRepository folder, 
@@ -113,5 +120,4 @@ config = Config()
 
 if __name__ == "__main__":
     test =Config()
-    print(test.get_checks())
 
