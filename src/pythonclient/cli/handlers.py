@@ -53,10 +53,10 @@ def check_handler(check_name: str, dcc:str ,**kwargs) -> None:
     furnace_context.start_services()
 
     check = CheckQuery(check_name)
-
     try:
         check_future = check.execute()
-    
+    except:
+        logger.error("cannot execute this check") 
 
     # print(kwargs)
     # print(Context.get())

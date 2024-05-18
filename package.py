@@ -13,7 +13,7 @@ description = """
 requires= [
     "dacite"
 ]
-
+import os
 def conform_requires(require_list):
     conformed_requires = []
     for require in require_list:
@@ -29,14 +29,16 @@ def commands():
     import tomllib
     import re
 
-    print(f"sys.version_info: {sys.version_info}")
 
     env.PYTHONPATH.append("{root}/src")
     env.FURNACE_CHECK_CONFIG.prepend("{root}/src/pythonclient/checkRepository")
-
+    env.FURNACE_ROOT_PACKAGES.prepend("{root}/src")
 
     parserpath = "pythonclient.cli.parser"
     alias("furnace", f"python -m {parserpath}")
+
+
+
 
 
 

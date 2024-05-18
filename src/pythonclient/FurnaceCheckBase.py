@@ -2,9 +2,9 @@ import functools
 import logging
 import inspect
 from typing import Any, Dict
+from typing import TYPE_CHECKING
 
 from pythonclient.check_buffer import CheckBuffer
-
 from pythonclient.utils.enums import CheckStatus
 
 class FurnaceCheckBase:

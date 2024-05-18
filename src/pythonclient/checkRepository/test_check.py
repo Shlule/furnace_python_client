@@ -6,14 +6,15 @@ from pythonclient.check_buffer import CheckBuffer
 class TestCheck(FurnaceCheckBase):
 
     parameters ={ "bonjour" : "greeting"}
-
+    @classmethod
     async def test(self):
         parameters = ["bonjour", "salut", 30]
-        await self.run(parameters, "bonjour", test="kwargs")
-        print("test")
+        # await self.run(parameters, "bonjour", test="kwargs")
+        print(parameters)
 
-    @FurnaceCheckBase.conform_command()
-    async def run(self, parameters):
+    # @FurnaceCheckBase.conform_command()
+    @classmethod
+    async def run(self, parameters =None):
         print("je suis dans le run de TestCheck")
 
 
@@ -26,7 +27,7 @@ if __name__ == "__main__":
     check_buffer = CheckBuffer(*parameters)
     print(check_buffer)
     test = TestCheck("check", check_buffer)
-    asyncio.run(test.run(test.check_buffer.children))
+    asyncio.run(test.run(parameters))
 
 
     print(f"test.parameters:{test.parameters}")

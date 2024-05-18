@@ -38,6 +38,11 @@ class BaseBuffer:
     # variable to cache the data of the dataclass for the ui
     serialized_data: dict = field(compare=False, repr=False, default_factory=dict)
 
+    def __post_init__(self):
+        slugify_pattern = re.compile("[^A-Za-z0-9]")
+        if self.label is None:
+            self.label = slugify_pattern.sub(" ", self.name)
+            self.label = self.label.title()
 
     def serialize(self, ignore_fields: List[str] =None):
         """

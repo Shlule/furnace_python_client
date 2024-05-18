@@ -39,16 +39,33 @@ class Config:
 
         # get all file in the checkRepository folder in each search_path
 
+        # for path in search_path:
+        #     if not os.path.isdir(path):
+        #         continue
+        #     list_check_path = Path(path).glob('**/*.py')
+        #     for check_path in list_check_path:
+        #         check_name = check_path.stem
+        #         if check_name == "__init__":
+        #             continue
+        #         founded_check.append({"name":check_name, "path": check_path})
+
         for path in search_path:
-            if not os.path.isdir(path):
-                continue
-            list_check_path = Path(path).glob('**/*.py')
-            for check_path in list_check_path:
-                check_name = check_path.stem
-                if check_name == "__init__":
-                    continue
-                founded_check.append({"name":check_name, "path": check_path})
-        
+            checkRepo_path_list = Path(path).glob('**/checkRepository')
+            for checkRepo_path in checkRepo_path_list:
+                check_path_list = Path(checkRepo_path).glob('**/*.py')
+                for check_path in check_path_list:
+                    check_name = check_path.stem
+                    module_path = check_path.parent
+                    if check_name == "__init__":
+                        continue
+                    # relative to is a pathlib feature
+                    premodule = module_path.relative_to(path)
+                    module_parts = premodule.parts
+                    module_base = ".".join(module_parts)
+                    module = (f"{module_base}.{check_name}")
+
+                    founded_check.append({"name": check_name, "module": module})
+                    
         return founded_check
             
     
@@ -56,6 +73,7 @@ class Config:
         return self.find_checks(
             [os.path.join(path) for path in self.checkRepo_search_path]
         )
+    
             
     @property
     def checks(self) -> List[Dict[str,str]]:
@@ -70,6 +88,10 @@ class Config:
         return getattr(sys.modules[__name__], "config")
 
     def is_check_exist(self, check_name:str):
+
+        """
+        prefer to return a real object if find it  compare to return bool
+        """
 
         for check in self.checks:
             if check["name"] == check_name:
@@ -103,7 +125,7 @@ class Config:
 
         checkRepo_search_path=[]
 
-        env_config_path = os.getenv("FURNACE_CHECK_CONFIG")
+        env_config_path = os.getenv("FURNACE_ROOT_PACKAGES")
         if env_config_path is not None:
             checkRepo_search_path += env_config_path.split(os.pathsep)
 
